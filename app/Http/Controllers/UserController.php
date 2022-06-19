@@ -13,24 +13,19 @@ class UserController extends Controller
     public function register (Request $request){
 
         $fields = $request->validate([
-            'name' => 'required|string',
             'email' =>'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'department' => 'required|string',
-            'position' => 'required|string',
-            'salary' => 'required|string',
+//            'address' => 'required|string',
+//            'phone' => 'required|string',
+//            'department' => 'required|string',
+//            'position' => 'required|string',
+//            'salary' => 'required|string',
             ]);
         $user = User::create([
-            'name' => $fields['name'],
+
             'email' => $fields['email'],
-            'address' => $fields['address'],
-            'phone' => $fields['phone'],
-            'department' => $fields['department'],
-            'position' => $fields['position'],
-            'salary' => $fields['salary'],
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+
         ]);
 
         $token = $user->createToken('myAppToken')->plainTextToken;
@@ -71,12 +66,8 @@ class UserController extends Controller
 
     }
 
-    public function logout(Request $request) {
-
-        auth()->user()->tokens()->delete();
-
-        return [
-            'message' => 'Logged out'
-        ];
+    public function logout()
+    {
+        Auth::logout();
     }
 }
