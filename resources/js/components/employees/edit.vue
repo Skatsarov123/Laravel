@@ -2,7 +2,7 @@
 
 import {onMounted, ref} from "vue"
 import {useRouter} from "vue-router"
-
+import Dashboard from "../dashboard";
 let form = ref({
 
     id: '',
@@ -30,7 +30,7 @@ const props = defineProps({
 
 const getSingleEmployee = async () => {
     let response = await axios.get(`/api/get_edit_employee/${props.id}`)
-    console.log(response.data.employee)
+
     form.value = response.data.employee
 }
 
@@ -55,7 +55,7 @@ const updateEmployee = () => {
                 form.value.position = '',
                 form.value.salary = '',
 
-                router.push('/')
+                router.push('/dashboard')
 
             toast.fire({
                 icon: "success",
@@ -69,63 +69,42 @@ const updateEmployee = () => {
 
 </script>
 <template>
-    <div class="container">
-        <div class="container">
-            <div class="products__create ">
-                <div class="products__create__titlebar dflex justify-content-between align-items-center">
-                    <div class="products__create__titlebar--item">
-                        <h1 class="my-1">Edit Employee</h1>
-                    </div>
+    <dashboard />
+    <div class="flex justify-center items-center w-full mt-32">
+        <div class="w-1/2 bg-white rounded shadow-2xl p-8 m-4">
+            <h1 class="block w-full text-center text-gray-800 text-2xl font-bold mb-6">Update Employee</h1>
+            <form>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Name</label>
+                    <input class="border py-2 px-3 text-grey-800" type="text"  v-model="form.name">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Email</label>
+                    <input class="border py-2 px-3 text-grey-800" type="email"  v-model="form.email">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Address</label>
+                    <textarea class="border py-2 px-3 text-grey-800"  v-model="form.address"></textarea>
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >phone</label>
+                    <input class="border py-2 px-3 text-grey-800" type="text"  v-model="form.phone">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Department</label>
+                    <input class="border py-2 px-3 text-grey-800" type="text"  v-model="form.department">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Position</label>
+                    <input class="border py-2 px-3 text-grey-800" type="text"  v-model="form.position">
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="mb-2 font-bold text-lg text-gray-900" >Salary</label>
+                    <input class="border py-2 px-3 text-grey-800" type="text"  v-model="form.salary">
                 </div>
 
-                <div class="products__create__cardWrapper mt-2">
-                    <div class="products__create__main">
-                        <div class="products__create__main--addInfo card py-2 px-2 bg-white">
-
-                            <p class="mb-1">Name</p>
-                            <input type="text" class="input" v-model="form.name">
-
-                            <p class="mb-1">Email</p>
-                            <input type="text" class="input" v-model="form.email">
-
-                            <p class="my-1">Address</p>
-                            <textarea cols="10" rows="5" class="textarea" v-model="form.address"></textarea>
-                        </div>
-
-                    </div>
-
-                    <div class="products__create__sidebar">
-                        <!-- Product Organization -->
-                        <div class="card py-2 px-2 bg-white">
-                            <div class="my-3">
-                                <p>Phone</p>
-                                <input type="text" class="input" v-model="form.phone">
-                            </div>
-
-                            <div class="my-3">
-                                <p>Department</p>
-                                <input type="text" class="input" v-model="form.department">
-                            </div>
-                            <div class="my-3">
-                                <p>Position</p>
-                                <input type="text" class="input" v-model="form.position">
-                            </div>
-
-                            <div class="my-3">
-                                <p>Salary</p>
-                                <input type="text" class="input" v-model="form.salary">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Footer Bar -->
-            <div class="dflex justify-content-between align-items-center my-3">
-                <p></p>
-                <button class="btn btn-secondary" @click="updateEmployee()">Update</button>
-            </div>
+                <button class="block bg-green-400 hover:bg-green-600 text-white uppercase text-lg mx-auto p-4 rounded"  @click.prevent="updateEmployee()">Save</button>
+            </form>
         </div>
     </div>
 </template>

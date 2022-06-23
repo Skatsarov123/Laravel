@@ -7,19 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+
+
     public function register (Request $request){
 
         $fields = $request->validate([
             'email' =>'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
-//            'address' => 'required|string',
-//            'phone' => 'required|string',
-//            'department' => 'required|string',
-//            'position' => 'required|string',
-//            'salary' => 'required|string',
+
             ]);
         $user = User::create([
 
@@ -66,8 +65,12 @@ class UserController extends Controller
 
     }
 
-    public function logout()
-    {
-        Auth::logout();
+
+    public function logout(Request $request) {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Logged out'
+        ];
     }
 }
